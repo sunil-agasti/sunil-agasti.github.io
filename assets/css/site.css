@@ -926,3 +926,8 @@ kbd {
   @keyframes avatarIn{from{opacity:0;transform:translateY(12px) scale(.92)}to{opacity:1;transform:none}}
 }
 @media print{.hero-avatar{box-shadow:none}}
+
+/* LinkedIn quick link in the nav */
+a.icon-btn{text-decoration:none;color:inherit}
+.nav-linkedin:hover{color:#0a66c2;border-color:#0a66c2}
+:root[data-theme="dark"] .nav-linkedin:hover{color:#70b5f9;border-color:#70b5f9}
