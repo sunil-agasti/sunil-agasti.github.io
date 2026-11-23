@@ -141,7 +141,7 @@ window.PROJECTS = [
     role: 'Senior Frontend Engineer',
     org: 'Apple',
     period: '2022 – present',
-    tags: ['React 18', 'TypeScript', 'Redux', 'RxJS', 'GraphQL · Apollo', 'Emotion', 'Spring Boot WebFlux', 'Java'],
+    tags: ['React 18', 'TypeScript', 'React Redux', 'Recharts', 'RxJS', 'GraphQL · Apollo', 'Emotion', 'Spring Boot WebFlux', 'Java'],
     summary:
       'The web console service technicians and support advisors use to run hardware diagnostics on customer devices: identify a device by serial number, start a session, run test suites, watch progress live, review grouped results and share a customer-friendly report. It exists in two phases — the <b>old DC</b> (a classic Java backend) and the <b>new DC</b> (a reactive rewrite) — both serving <b>one shared React SPA</b>.',
     impact: [
@@ -255,7 +255,7 @@ window.PROJECTS = [
       ['Error & loading states', 'Automatic CSRF retry, reload to SSO on auth expiry, explicit "unavailable" suite states and offline device history.']
     ],
     stack: {
-      frontend: ['React 18', 'TypeScript (strict)', 'Redux 4', 'redux-observable + RxJS', 'Apollo Client 3', 'React Router 6', 'Emotion', 'Storybook'],
+      frontend: ['React 18', 'TypeScript (strict)', 'Redux 4 + React Redux', 'Recharts (charts)', 'redux-observable + RxJS', 'Apollo Client 3', 'React Router 6', 'Emotion', 'Storybook'],
       backend: ['Old: Java · Jersey JAX-RS · Tomcat 9 · graphql-java · JAXB', 'New: Java 25 · Spring Boot WebFlux · Netty · virtual threads', 'Spring for GraphQL', 'Caffeine', 'Micrometer / Prometheus', 'Distributed tracing', 'Log4j2'],
       build: ['Vite 6', 'Gradle (old)', 'Maven (new)', 'Node 20', 'ESLint', 'Prettier'],
       testing: ['Jest + ts-jest (80% gate)', 'Cypress', 'JUnit 4 / 5', 'Mockito', 'GraphQL slice tests', 'Checkstyle', 'SpotBugs', 'JaCoCo', 'SonarQube'],
@@ -279,7 +279,7 @@ window.PROJECTS = [
     confidential: true,
     role: 'Frontend Engineer',
     org: 'Apple',
-    period: '2020 – 2021',
+    period: '2021 – 2022',
     tags: ['React', 'TypeScript', 'Redux + thunk', 'immer', 'react-intl', 'SCSS', 'MapKit JS', 'jest-axe'],
     summary:
       'A large, customer-facing React SPA that guides people from choosing a product, to a topic or symptom, to a solution — booking a carry-in or onsite repair, chat, call, email or contacting a carrier — and on to a confirmation. It also covers case lookup, repair-location browsing and <b>self-service remote diagnostics</b>.',
@@ -396,8 +396,8 @@ window.PROJECTS = [
     confidential: true,
     role: 'Full-stack engineer',
     org: 'Apple',
-    period: '',
-    tags: ['React 18', 'TypeScript', 'Redux Toolkit', 'Tailwind', 'Spring Boot WebFlux', 'Java 21', 'Cypress'],
+    period: '2020 – 2021',
+    tags: ['React 18', 'TypeScript', 'Redux Toolkit + React Redux', 'Tailwind', 'Spring Boot WebFlux', 'Java 21', 'Cypress'],
     summary:
       'An admin console for provisioning diagnostic hardware stations to customer and repair-centre accounts: add, bulk-upload, edit, renew and revoke stations, track expiry health, export reports and manage users. A <b>stateless Spring Boot WebFlux BFF</b> serves the SPA and proxies every call.',
     impact: [
@@ -492,7 +492,7 @@ window.PROJECTS = [
       ['Error & loading states', 'No-access route on 400/401/403, error alerts, a global error hook that logs to the server, and CSV error logs for partial bulk failures.']
     ],
     stack: {
-      frontend: ['React 18', 'TypeScript 4.7', 'Redux Toolkit', 'React Router 6 (hash)', 'axios', 'Tailwind CSS 3', 'Internal design system', 'Grid.js', 'Papa Parse', 'React Aria focus'],
+      frontend: ['React 18', 'TypeScript 4.7', 'Redux Toolkit + React Redux', 'React Router 6 (hash)', 'axios', 'Tailwind CSS 3', 'Internal design system', 'Grid.js', 'Papa Parse', 'React Aria focus'],
       backend: ['Java 21', 'Spring Boot WebFlux (Reactor)', 'Spring Security headers', 'springdoc-openapi', 'Lombok', 'Jackson', 'Log4j2'],
       build: ['Maven wrapper', 'Create React App 5', 'Node 20', 'Make', 'ESLint (Airbnb) + Prettier'],
       testing: ['Jest + React Testing Library', 'Snapshot tests', 'JUnit 5', 'Mockito', 'reactor-test', 'Cypress (per role)', 'Checkstyle · SpotBugs · PMD · JaCoCo · SonarQube'],
@@ -515,7 +515,7 @@ window.PROJECTS = [
     confidential: true,
     role: 'Frontend Engineer',
     org: 'Apple',
-    period: '2021 – 2022',
+    period: '2019 – 2020',
     tags: ['React 17', 'TypeScript', 'React Query', 'React Router', 'Emotion', 'Spring Boot (reactive)', 'Java 11', 'Jest + RTL', 'Cypress'],
     summary:
       'An internal support tool for looking up <b>device diagnostic events</b>. Support staff search by serial number or by diagnostic event / capture ID, scan the event history, and expand any event to see every test with its value and test information. One Spring Boot deployable serves both the API and the React SPA.',
