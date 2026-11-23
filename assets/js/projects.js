@@ -32,18 +32,6 @@ window.PROJECTS = [
       { n: 140, suffix: '+', label: 'accessibility fixes' },
       { n: 2, suffix: '', label: 'backends · 1 shared SPA' }
     ],
-    compare: {
-      rows: [
-        ['Architecture', 'JAX-RS (Jersey 1.x) WAR on Tomcat 9', 'Spring Boot WebFlux BFF on Netty'],
-        ['Language & build', 'Java · Gradle', 'Java 25 · Maven'],
-        ['I/O model', 'Blocking, thread-per-request', 'Non-blocking, reactive end to end'],
-        ['Role', 'In production; the behavioural source of truth', 'Rewrite that must match old-DC behaviour exactly'],
-        ['Frontend', 'Shared React SPA', 'Same shared React SPA'],
-        ['Backend calls', 'Pooled WebSocket client to the diagnostics platform', 'Per-operation routing to the platform or new microservices'],
-        ['Sessions', 'Stateless signed cookie — survives restarts', 'Per-instance in-memory sessions'],
-        ['Testing & gates', 'JUnit 4, Mockito, Jest, Cypress', 'JUnit 5, GraphQL slice tests, Checkstyle, SpotBugs (zero bugs), JaCoCo']
-      ]
-    },
     overview: [
       'Technicians in stores, repair centres and partner shops depend on this console every day, across many device families — phones, tablets, laptops, watches, headphones, headsets and accessories. It has to be fast, reliable on slow networks, and usable with a keyboard and a screen reader.',
       'The <b>old DC</b> is a large synchronous Java application that still runs in production and defines expected behaviour: null handling, de-duplication, state priorities and result grouping. The <b>new DC</b> is a reactive BFF that routes each operation to the legacy platform or to new microservices, while the shared SPA must see exactly the same contract.'
