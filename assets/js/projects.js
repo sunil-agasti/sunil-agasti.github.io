@@ -16,125 +16,8 @@
 window.PROJECTS = [
   /* ---------------------------------------------------------------- 01 */
   {
-    id: 'itd',
-    num: '01',
-    title: 'IT-Dashboard',
-    tagKey: 'p.itd.tag',
-    confidential: false,
-    role: 'Architect & sole developer',
-    org: 'Internal IT portal',
-    period: 'Ongoing',
-    tags: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind v4', 'Bash', 'SSH', 'Jamf', 'Swift'],
-    summary:
-      'A monorepo that puts five internal IT tools — asset tracking, device access, self-service software, compliance and an admin home — behind <b>one sign-on</b>. It also absorbed two standalone apps I had built earlier (a system-admin portal and an asset-closet app), with tooling to merge their live data.',
-    impact: [
-      { n: 5, suffix: '', label: 'tools behind one sign-on' },
-      { n: 2, suffix: '', label: 'standalone apps consolidated' },
-      { n: 30, suffix: '+', label: 'targeted test scripts' }
-    ],
-    overview: [
-      'IT staff were juggling separate tools with separate logins. Employees needed to install approved software without admin rights, and access exceptions — temporary admin rights, temporary GitHub access — were handled by hand and easy to forget to revoke.',
-      'IT-Dashboard turns that into one portal. Staff sign in once at <code>/admin</code> and see a tile for every tool they are granted. Any employee who opens the portal without signing in lands on a Self Service page for their own Mac, where every change is approved on the device itself.'
-    ],
-    goals: [
-      'Log in once, reach every tool — without building an auth server.',
-      'Reuse the existing apps with minimal rewrite; keep each one independently runnable.',
-      'Make every privileged change time-limited, verified and audited.',
-      'One-command setup, development and hosting.'
-    ],
-    fr: [
-      ['Single sign-on', 'Employee ID + PIN at one portal (set / reset PIN, security question). The session is honoured by every tool; each login is written to an audit trail.'],
-      ['Self Service', 'App catalogue with remote <b>install, update and uninstall</b> over SSH, plus one-click troubleshooting fixes. A no-sign-in fleet mode identifies the visitor by their own Mac and asks for approval on the device.'],
-      ['Device Management', '<b>Time-limited admin rights</b> and <b>temporary GitHub access</b> that revoke automatically; longer grants tied to an approved change request; hostname changes, cleanup and leadership reports with a 12-month trend.'],
-      ['Asset Management', 'Check-in / check-out with asset type first, handover and return emails, and <b>camera OCR + barcode scanning that runs in the browser</b>.'],
-      ['Compliance', 'Imports MDM exports to report per-device posture (disk encryption, firewall, endpoint agent), employee onboarding obligations with SLAs, and regional roll-ups.'],
-      ['Administration', 'Per-user module grants, a cross-app user audit (sessions and activity) and Excel export.'],
-      ['Desktop companion', 'A small native macOS client that wraps the fleet page and updates itself from a signed release feed.']
-    ],
-    nfr: [
-      ['Security', 'AES-256 encrypted, signed session cookie. Middleware verifies it at the edge; a server-side guard re-reads the allowlist on <b>every request</b> — hiding a tile is cosmetic, the guard is the real gate. CSRF protection, rate limiting and lockout on login.'],
-      ['Supply chain', 'Everything installed is fetched and verified <b>by the portal</b> — pinned SHA-256, a valid code signature and the expected developer Team ID — before it is pushed. Endpoints never download links themselves. A scheduled check flags silently replaced release files.'],
-      ['Secrets hygiene', 'Passwords and tokens travel through environment variables and stdin, never command-line arguments or logs. One shared env file; no app keeps its own secret.'],
-      ['Reliability', 'An on-device daemon enforces and revokes each grant, so expiry still happens if the server is down or the VPN drops. A keep-alive supervisor restarts each app individually.'],
-      ['Privacy', 'OCR and barcode decoding run entirely in the browser — images are never uploaded.'],
-      ['Auditability', 'Every login, grant, removal and install is logged and exportable.'],
-      ['Operability', '<code>make setup</code>, <code>make dev</code>, <code>make prod</code>. The portal resolves its own address from each request, so a changing network address never breaks links.'],
-      ['Maintainability', 'Permanent module IDs, shared auth and UI packages consumed as TypeScript source, ~30 targeted test scripts plus <code>tsc --noEmit</code> per app.']
-    ],
-    hld: {
-      diagrams: [
-        {
-          title: 'One cookie, five apps, verified everywhere',
-          tiers: [
-            { n: 'Clients', k: 'client', nodes: ['IT staff browser (/admin)', 'Employee Mac (fleet page)', 'macOS desktop companion'] },
-            'HTTPS · host-scoped session cookie',
-            { n: 'Portal', k: 'core', mine: true, nodes: ['Login · PIN keypad', 'Tile home', 'Session issue + audit'] },
-            'Same cookie — every app only verifies',
-            { n: 'Tools (Next.js apps)', k: 'core', mine: true, nodes: ['Asset Management', 'Device Management', 'Self Service', 'Compliance'] },
-            'Shared packages',
-            { n: 'Shared', k: 'core', mine: true, nodes: ['Auth library (edge + node)', 'UI kit: header, timeout, theme'] },
-            'SSH (env-passed creds) · file I/O',
-            { n: 'Infrastructure', k: 'ext', nodes: ['Managed Macs + launchd daemons', 'Flat-file stores (JSON / CSV / XLSX)', 'Versioned config: allowlist, catalogue, pinned hashes', 'Cloud storage · MDM exports'] }
-          ]
-        }
-      ],
-      decisions: [
-        ['Monorepo of separate apps', 'npm workspaces keep each tool independently runnable — a minimal rewrite, versus merging everything into one app.'],
-        ['Host-scoped cookie for SSO', 'Cookies are scoped by host, not port, so one signed cookie reaches every app. "Log in once" with zero auth infrastructure.'],
-        ['Reconcile on the device, never suppress MDM', 'A daemon per grant re-applies a live grant if a recurring policy strips it and revokes at expiry — instead of disabling MDM check-ins.'],
-        ['Remove what cannot work', 'An AI-assist feature was removed when no reachable model credential existed; the safety rules (reads run, writes only propose) are documented for a future rebuild.']
-      ]
-    },
-    lld: {
-      modules: [
-        ['Auth package', 'Session crypto, user store, audit writer, a module guard used in each app layout, and an origin resolver. A separate edge entry point avoids Node crypto in middleware.'],
-        ['UI package', 'Portal header, session manager, session-timeout bounce and a pre-paint theme initialiser shared by every app.'],
-        ['Self Service server', 'A custom Node server wrapper that strips forged forwarding headers, enforces a Host allowlist and requires same-origin + a custom header on writes.'],
-        ['Install pipeline', 'fetch → SHA-256 check → signature verify → Team ID check → push over SSH → Bash installer → on-device confirmation dialog. The SSH timeout exceeds the dialog window, and a failed dialog never flips a successful install to failed.'],
-        ['Grant enforcement', 'A JSON grant marker on the Mac plus a LaunchDaemon that guards and revokes it — a shared contract with the original standalone portal.'],
-        ['Data import', 'A merge tool imports records from the two still-live standalone apps instead of hand-copying.']
-      ],
-      flow: {
-        title: 'Request lifecycle',
-        steps: [
-          'Staff log in at the portal; it issues the encrypted session cookie.',
-          'They click a tile; the browser sends the same cookie to that app.',
-          'Edge middleware verifies the cookie; the layout guard re-reads the allowlist.',
-          'A server action runs the change — SSH to the Mac or a file update.',
-          'The result, and who did it, is appended to the audit log.'
-        ]
-      }
-    },
-    ui: [
-      ['Component architecture', 'App Router server components for data-heavy pages; client components only for interactive widgets (PIN keypad, scanners, grant forms). Shared chrome from one UI package makes five apps feel like one product.'],
-      ['Design tokens & theming', 'Tailwind v4 CSS-first tokens; light and dark themes applied by a pre-paint script (no flash). Status colours — granted, expiring, revoked — mean the same thing in every app.'],
-      ['State & data fetching', 'Reads are server-rendered from flat files and config re-read per request; client state stays local. Polling only while a remote action is in flight.'],
-      ['Routing', 'One Next.js app per tool; portal tiles link across. The URL decides the door: <code>/admin</code> for staff, the root for the no-sign-in fleet page.'],
-      ['Rendering strategy', 'SSR / RSC for dashboards and reports; client-only for camera OCR. Turbopack in development (webpack for the OCR app).'],
-      ['Accessibility & i18n', 'Labelled forms, keyboard-operable PIN entry, visible focus and live status text for long SSH actions. English-only for now, with copy kept close to components.'],
-      ['Performance & caching', 'No database round trips; OCR libraries load only on the scan screen; the home page no longer waits on SSH lookups.'],
-      ['Error & loading states', 'Plain-language SSH failure reasons for staff; session expiry bounces to login with a safe return address.']
-    ],
-    stack: {
-      frontend: ['Next.js 16 (App Router)', 'React 19', 'TypeScript 5', 'Tailwind CSS v4', 'Tesseract.js', 'ZXing'],
-      backend: ['Next.js route handlers & server actions', 'Node.js ≥ 20 (custom server)', 'Bash', 'SSH', 'launchd', 'Swift + WKWebView (desktop client)'],
-      build: ['npm workspaces', 'Turbopack', 'Webpack', 'Makefile', 'ESM'],
-      testing: ['~30 targeted test scripts', 'tsc --noEmit per app'],
-      cicd: ['Self-hosted on a managed Mac', 'Keep-alive supervisor', 'Ed25519-signed desktop release feed', 'Versioned config in git']
-    },
-    contrib: [
-      'Designed the SSO model and the split between authentication (portal) and authorisation (per-app guard).',
-      'Migrated two standalone apps into the monorepo and wrote the data-merge tooling.',
-      'Built the Self Service install pipeline and its verification chain end to end.',
-      'Designed on-device grant enforcement that survives MDM policy runs and server outages.',
-      'Wrote the Bash operations tooling: bootstrap, secrets, supervised hosting and publishing.'
-    ]
-  },
-
-  /* ---------------------------------------------------------------- 02 */
-  {
     id: 'dc',
-    num: '02',
+    num: '01',
     title: 'AST2 Diagnostics Console',
     tagKey: 'p.dc.tag',
     confidential: true,
@@ -267,6 +150,123 @@ window.PROJECTS = [
       'Led the accessibility effort: <b>140+ fixes</b> — dialog focus and ARIA, VoiceOver and keyboard access, list semantics, active / disabled states, dark-mode contrast and 200–400% zoom reflow.',
       'Fixed security findings such as source disclosure on error pages, and added DOM-semantics tests so accessibility regressions fail in CI.',
       'Parity work against the new BFF: GraphQL variable-type checks before enabling flags, and side-by-side comparison with old-DC behaviour.'
+    ]
+  },
+
+  /* ---------------------------------------------------------------- 02 */
+  {
+    id: 'itd',
+    num: '02',
+    title: 'IT-Dashboard',
+    tagKey: 'p.itd.tag',
+    confidential: false,
+    role: 'Architect & sole developer',
+    org: 'Internal IT portal',
+    period: 'Ongoing',
+    tags: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind v4', 'Bash', 'SSH', 'Jamf', 'Swift'],
+    summary:
+      'A monorepo that puts five internal IT tools — asset tracking, device access, self-service software, compliance and an admin home — behind <b>one sign-on</b>. It also absorbed two standalone apps I had built earlier (a system-admin portal and an asset-closet app), with tooling to merge their live data.',
+    impact: [
+      { n: 5, suffix: '', label: 'tools behind one sign-on' },
+      { n: 2, suffix: '', label: 'standalone apps consolidated' },
+      { n: 30, suffix: '+', label: 'targeted test scripts' }
+    ],
+    overview: [
+      'IT staff were juggling separate tools with separate logins. Employees needed to install approved software without admin rights, and access exceptions — temporary admin rights, temporary GitHub access — were handled by hand and easy to forget to revoke.',
+      'IT-Dashboard turns that into one portal. Staff sign in once at <code>/admin</code> and see a tile for every tool they are granted. Any employee who opens the portal without signing in lands on a Self Service page for their own Mac, where every change is approved on the device itself.'
+    ],
+    goals: [
+      'Log in once, reach every tool — without building an auth server.',
+      'Reuse the existing apps with minimal rewrite; keep each one independently runnable.',
+      'Make every privileged change time-limited, verified and audited.',
+      'One-command setup, development and hosting.'
+    ],
+    fr: [
+      ['Single sign-on', 'Employee ID + PIN at one portal (set / reset PIN, security question). The session is honoured by every tool; each login is written to an audit trail.'],
+      ['Self Service', 'App catalogue with remote <b>install, update and uninstall</b> over SSH, plus one-click troubleshooting fixes. A no-sign-in fleet mode identifies the visitor by their own Mac and asks for approval on the device.'],
+      ['Device Management', '<b>Time-limited admin rights</b> and <b>temporary GitHub access</b> that revoke automatically; longer grants tied to an approved change request; hostname changes, cleanup and leadership reports with a 12-month trend.'],
+      ['Asset Management', 'Check-in / check-out with asset type first, handover and return emails, and <b>camera OCR + barcode scanning that runs in the browser</b>.'],
+      ['Compliance', 'Imports MDM exports to report per-device posture (disk encryption, firewall, endpoint agent), employee onboarding obligations with SLAs, and regional roll-ups.'],
+      ['Administration', 'Per-user module grants, a cross-app user audit (sessions and activity) and Excel export.'],
+      ['Desktop companion', 'A small native macOS client that wraps the fleet page and updates itself from a signed release feed.']
+    ],
+    nfr: [
+      ['Security', 'AES-256 encrypted, signed session cookie. Middleware verifies it at the edge; a server-side guard re-reads the allowlist on <b>every request</b> — hiding a tile is cosmetic, the guard is the real gate. CSRF protection, rate limiting and lockout on login.'],
+      ['Supply chain', 'Everything installed is fetched and verified <b>by the portal</b> — pinned SHA-256, a valid code signature and the expected developer Team ID — before it is pushed. Endpoints never download links themselves. A scheduled check flags silently replaced release files.'],
+      ['Secrets hygiene', 'Passwords and tokens travel through environment variables and stdin, never command-line arguments or logs. One shared env file; no app keeps its own secret.'],
+      ['Reliability', 'An on-device daemon enforces and revokes each grant, so expiry still happens if the server is down or the VPN drops. A keep-alive supervisor restarts each app individually.'],
+      ['Privacy', 'OCR and barcode decoding run entirely in the browser — images are never uploaded.'],
+      ['Auditability', 'Every login, grant, removal and install is logged and exportable.'],
+      ['Operability', '<code>make setup</code>, <code>make dev</code>, <code>make prod</code>. The portal resolves its own address from each request, so a changing network address never breaks links.'],
+      ['Maintainability', 'Permanent module IDs, shared auth and UI packages consumed as TypeScript source, ~30 targeted test scripts plus <code>tsc --noEmit</code> per app.']
+    ],
+    hld: {
+      diagrams: [
+        {
+          title: 'One cookie, five apps, verified everywhere',
+          tiers: [
+            { n: 'Clients', k: 'client', nodes: ['IT staff browser (/admin)', 'Employee Mac (fleet page)', 'macOS desktop companion'] },
+            'HTTPS · host-scoped session cookie',
+            { n: 'Portal', k: 'core', mine: true, nodes: ['Login · PIN keypad', 'Tile home', 'Session issue + audit'] },
+            'Same cookie — every app only verifies',
+            { n: 'Tools (Next.js apps)', k: 'core', mine: true, nodes: ['Asset Management', 'Device Management', 'Self Service', 'Compliance'] },
+            'Shared packages',
+            { n: 'Shared', k: 'core', mine: true, nodes: ['Auth library (edge + node)', 'UI kit: header, timeout, theme'] },
+            'SSH (env-passed creds) · file I/O',
+            { n: 'Infrastructure', k: 'ext', nodes: ['Managed Macs + launchd daemons', 'Flat-file stores (JSON / CSV / XLSX)', 'Versioned config: allowlist, catalogue, pinned hashes', 'Cloud storage · MDM exports'] }
+          ]
+        }
+      ],
+      decisions: [
+        ['Monorepo of separate apps', 'npm workspaces keep each tool independently runnable — a minimal rewrite, versus merging everything into one app.'],
+        ['Host-scoped cookie for SSO', 'Cookies are scoped by host, not port, so one signed cookie reaches every app. "Log in once" with zero auth infrastructure.'],
+        ['Reconcile on the device, never suppress MDM', 'A daemon per grant re-applies a live grant if a recurring policy strips it and revokes at expiry — instead of disabling MDM check-ins.'],
+        ['Remove what cannot work', 'An AI-assist feature was removed when no reachable model credential existed; the safety rules (reads run, writes only propose) are documented for a future rebuild.']
+      ]
+    },
+    lld: {
+      modules: [
+        ['Auth package', 'Session crypto, user store, audit writer, a module guard used in each app layout, and an origin resolver. A separate edge entry point avoids Node crypto in middleware.'],
+        ['UI package', 'Portal header, session manager, session-timeout bounce and a pre-paint theme initialiser shared by every app.'],
+        ['Self Service server', 'A custom Node server wrapper that strips forged forwarding headers, enforces a Host allowlist and requires same-origin + a custom header on writes.'],
+        ['Install pipeline', 'fetch → SHA-256 check → signature verify → Team ID check → push over SSH → Bash installer → on-device confirmation dialog. The SSH timeout exceeds the dialog window, and a failed dialog never flips a successful install to failed.'],
+        ['Grant enforcement', 'A JSON grant marker on the Mac plus a LaunchDaemon that guards and revokes it — a shared contract with the original standalone portal.'],
+        ['Data import', 'A merge tool imports records from the two still-live standalone apps instead of hand-copying.']
+      ],
+      flow: {
+        title: 'Request lifecycle',
+        steps: [
+          'Staff log in at the portal; it issues the encrypted session cookie.',
+          'They click a tile; the browser sends the same cookie to that app.',
+          'Edge middleware verifies the cookie; the layout guard re-reads the allowlist.',
+          'A server action runs the change — SSH to the Mac or a file update.',
+          'The result, and who did it, is appended to the audit log.'
+        ]
+      }
+    },
+    ui: [
+      ['Component architecture', 'App Router server components for data-heavy pages; client components only for interactive widgets (PIN keypad, scanners, grant forms). Shared chrome from one UI package makes five apps feel like one product.'],
+      ['Design tokens & theming', 'Tailwind v4 CSS-first tokens; light and dark themes applied by a pre-paint script (no flash). Status colours — granted, expiring, revoked — mean the same thing in every app.'],
+      ['State & data fetching', 'Reads are server-rendered from flat files and config re-read per request; client state stays local. Polling only while a remote action is in flight.'],
+      ['Routing', 'One Next.js app per tool; portal tiles link across. The URL decides the door: <code>/admin</code> for staff, the root for the no-sign-in fleet page.'],
+      ['Rendering strategy', 'SSR / RSC for dashboards and reports; client-only for camera OCR. Turbopack in development (webpack for the OCR app).'],
+      ['Accessibility & i18n', 'Labelled forms, keyboard-operable PIN entry, visible focus and live status text for long SSH actions. English-only for now, with copy kept close to components.'],
+      ['Performance & caching', 'No database round trips; OCR libraries load only on the scan screen; the home page no longer waits on SSH lookups.'],
+      ['Error & loading states', 'Plain-language SSH failure reasons for staff; session expiry bounces to login with a safe return address.']
+    ],
+    stack: {
+      frontend: ['Next.js 16 (App Router)', 'React 19', 'TypeScript 5', 'Tailwind CSS v4', 'Tesseract.js', 'ZXing'],
+      backend: ['Next.js route handlers & server actions', 'Node.js ≥ 20 (custom server)', 'Bash', 'SSH', 'launchd', 'Swift + WKWebView (desktop client)'],
+      build: ['npm workspaces', 'Turbopack', 'Webpack', 'Makefile', 'ESM'],
+      testing: ['~30 targeted test scripts', 'tsc --noEmit per app'],
+      cicd: ['Self-hosted on a managed Mac', 'Keep-alive supervisor', 'Ed25519-signed desktop release feed', 'Versioned config in git']
+    },
+    contrib: [
+      'Designed the SSO model and the split between authentication (portal) and authorisation (per-app guard).',
+      'Migrated two standalone apps into the monorepo and wrote the data-merge tooling.',
+      'Built the Self Service install pipeline and its verification chain end to end.',
+      'Designed on-device grant enforcement that survives MDM policy runs and server outages.',
+      'Wrote the Bash operations tooling: bootstrap, secrets, supervised hosting and publishing.'
     ]
   },
 
