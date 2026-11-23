@@ -515,7 +515,7 @@ window.PROJECTS = [
     confidential: true,
     role: 'Frontend Engineer',
     org: 'Apple',
-    period: '2019 – 2021',
+    period: '2021 – 2022',
     tags: ['React 17', 'TypeScript', 'React Query', 'React Router', 'Emotion', 'Spring Boot (reactive)', 'Java 11', 'Jest + RTL', 'Cypress'],
     summary:
       'An internal support tool for looking up <b>device diagnostic events</b>. Support staff search by serial number or by diagnostic event / capture ID, scan the event history, and expand any event to see every test with its value and test information. One Spring Boot deployable serves both the API and the React SPA.',
