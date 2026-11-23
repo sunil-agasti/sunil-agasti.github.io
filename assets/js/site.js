@@ -68,7 +68,10 @@ const PROJECT_GALLERIES = {
   webadmin: {
     title: 'web-admin.local',
     items: [
-      { src: 'assets/shots/webadmin/home.png', cap: 'Current state: the React + TypeScript scaffold the console is being built on' },
+      { src: 'assets/shots/webadmin/01-empty.png', cap: 'Search diagnostic events by serial number or capture ID' },
+      { src: 'assets/shots/webadmin/02-results.png', cap: 'Event history for a device: capture ID, date, account, channel and result' },
+      { src: 'assets/shots/webadmin/03-expanded-passed.png', cap: 'Expand a passed event to see each test, its value and test information' },
+      { src: 'assets/shots/webadmin/04-expanded-warning.png', cap: 'Expanded warning event with the full per-test breakdown' },
     ],
   },
   diagflow: {
