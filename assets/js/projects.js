@@ -279,7 +279,7 @@ window.PROJECTS = [
     confidential: true,
     role: 'Frontend Engineer',
     org: 'Apple',
-    period: '2016 – 2021',
+    period: '2020 – 2021',
     tags: ['React', 'TypeScript', 'Redux + thunk', 'immer', 'react-intl', 'SCSS', 'MapKit JS', 'jest-axe'],
     summary:
       'A large, customer-facing React SPA that guides people from choosing a product, to a topic or symptom, to a solution — booking a carry-in or onsite repair, chat, call, email or contacting a carrier — and on to a confirmation. It also covers case lookup, repair-location browsing and <b>self-service remote diagnostics</b>.',
