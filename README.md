@@ -4,7 +4,7 @@ Senior Frontend Engineer · React · TypeScript · GraphQL · Accessibility · A
 
 **Live:** https://sunil-agasti.github.io/
 
-A static, dependency-free site (no build step) with six case studies — IT-Dashboard, AST2 Diagnostics Console (old + new), GetSupport UI, AST2 Provisioning UI, GDX Web Admin and AST2 Diagnostics Flow Automation. Each one has an overview, functional and non-functional requirements, an animated HLD diagram, LLD, UI system design, tech stack and my role.
+A static, dependency-free site (no build step) with six case studies — IT-Dashboard, AST2 Diagnostics Console (old + new), GetSupport UI, AST2 Provisioning UI, AST2 Web Admin and AST2 Diagnostics Flow Automation. Each one has an overview, functional and non-functional requirements, an animated HLD diagram, LLD, UI system design, tech stack and my role.
 
 All screenshots use **demo data only**. Confidential projects are labelled as such and have no public code.
 

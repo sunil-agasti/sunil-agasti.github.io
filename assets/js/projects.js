@@ -139,8 +139,8 @@ window.PROJECTS = [
     tagKey: 'p.dc.tag',
     confidential: true,
     role: 'Senior Frontend Engineer',
-    org: 'Apple · via TCS, then contract',
-    period: '2016 – present',
+    org: 'Apple',
+    period: '2022 – present',
     tags: ['React 18', 'TypeScript', 'Redux', 'RxJS', 'GraphQL · Apollo', 'Emotion', 'Spring Boot WebFlux', 'Java'],
     summary:
       'The web console service technicians and support advisors use to run hardware diagnostics on customer devices: identify a device by serial number, start a session, run test suites, watch progress live, review grouped results and share a customer-friendly report. It exists in two phases — the <b>old DC</b> (a classic Java backend) and the <b>new DC</b> (a reactive rewrite) — both serving <b>one shared React SPA</b>.',
@@ -278,7 +278,7 @@ window.PROJECTS = [
     tagKey: 'p.getsupport.tag',
     confidential: true,
     role: 'Frontend Engineer',
-    org: 'Apple · via TCS',
+    org: 'Apple',
     period: '2016 – 2021',
     tags: ['React', 'TypeScript', 'Redux + thunk', 'immer', 'react-intl', 'SCSS', 'MapKit JS', 'jest-axe'],
     summary:
@@ -395,7 +395,7 @@ window.PROJECTS = [
     tagKey: 'p.provisioning.tag',
     confidential: true,
     role: 'Full-stack engineer',
-    org: 'Apple · contract',
+    org: 'Apple',
     period: '',
     tags: ['React 18', 'TypeScript', 'Redux Toolkit', 'Tailwind', 'Spring Boot WebFlux', 'Java 21', 'Cypress'],
     summary:
@@ -510,110 +510,111 @@ window.PROJECTS = [
   {
     id: 'webadmin',
     num: '05',
-    title: 'GDX Web Admin',
+    title: 'AST2 Web Admin',
     tagKey: 'p.webadmin.tag',
     confidential: true,
     role: 'Frontend Engineer',
-    org: 'Apple · via TCS',
-    period: '2021',
-    tags: ['React 17', 'TypeScript (strict)', 'Create React App', 'Tailwind preset', 'PostCSS', 'Jest + RTL'],
+    org: 'Apple',
+    period: '2022 – present',
+    tags: ['React 17', 'TypeScript', 'React Query', 'React Router', 'Emotion', 'Spring Boot (reactive)', 'Java 11', 'Jest + RTL', 'Cypress'],
     summary:
-      'An honest one: the <b>foundation</b> for an admin console. A Create React App + strict TypeScript scaffold wired to the internal design system (a Tailwind preset), with a dark-first theme and brand tokens. Business features were not built in this phase — the work produced the target architecture, interface contracts and an upgrade plan.',
+      'An internal support tool for looking up <b>device diagnostic events</b>. Support staff search by serial number or by diagnostic event / capture ID, scan the event history, and expand any event to see every test with its value and test information. One Spring Boot deployable serves both the API and the React SPA.',
     impact: [
-      { n: 1, suffix: '', label: 'console foundation' },
-      { n: 9, suffix: '', label: 'feature areas specified' },
-      { n: 10, suffix: '', label: 'tech-debt items triaged' }
+      { n: 80, suffix: '%', label: 'enforced unit-coverage gate' },
+      { n: 25, suffix: '+', label: 'Cypress end-to-end specs' },
+      { n: 1, suffix: '', label: 'deployable: API + SPA' }
     ],
     overview: [
-      'The goal was to stand up a starting point for a future admin product — sign-in, role-based access, a dashboard, CRUD lists, an audit log and settings — on the company design system.',
-      'What exists is the scaffold: bootstrap, a design-system button on a placeholder screen, dark theme and brand colour tokens, and a Web Vitals hook. Everything else below is labelled as <b>target</b> design.'
+      'When a customer or technician reports a problem, support needs to see what the diagnostics actually said: which runs happened on a device, when, through which channel, and what each test returned. Before this tool that meant asking engineering to dig through backend systems.',
+      'AST2 Web Admin puts that lookup behind a single search box. It is deliberately focused: one search, one results table, expandable per-test detail, and clear empty, loading, error and signed-out states.'
     ],
     goals: [
-      'A clean, typed starting point on the internal design system.',
-      'A target architecture the team could build into without re-plumbing.',
-      'A clear list of what to fix before feature work starts.'
+      'Answer "what did diagnostics say about this device?" in one search.',
+      'Accept either a serial number or an event / capture ID without making the user choose.',
+      'Show every test result for an event without leaving the page.',
+      'Be safe by default: SSO-only access, validated input, no data cached in the browser.'
     ],
     fr: [
-      ['Built · bootstrap', 'App mounts with StrictMode; landing screen with a design-system button.'],
-      ['Built · theming', 'Dark theme and brand primary colour applied globally.'],
-      ['Built · telemetry hook', 'Core Web Vitals reporter ready to wire to a sink.'],
-      ['Target · auth & RBAC', 'SSO sign-in / sign-out, session expiry, Viewer / Editor / Admin roles gating routes and actions.'],
-      ['Target · dashboard', 'Summary metrics and status.'],
-      ['Target · CRUD', 'Lists with search, filter, sort and pagination; detail, create, edit and delete with confirmation.'],
-      ['Target · users & audit', 'Invite users, assign roles, deactivate; who changed what and when.'],
-      ['Target · settings & feedback', 'App-level config; toasts and inline validation.'],
-      ['Target · navigation', 'Persistent sidebar / top bar, breadcrumbs, deep-linkable URLs.']
+      ['Sign in / sign out', 'Access through corporate SSO; Sign Out ends the session and shows a signed-out page with a Sign In button.'],
+      ['Smart search', 'One field for serial number or diagnostic event ID. Input is sanitised, upper-cased, length-limited and pattern-checked; long alphanumeric or numeric values are treated as event IDs, everything else as a serial.'],
+      ['Results table', 'Serial, event / capture ID, date, account, ship-to, channel and result for every matching event.'],
+      ['Friendly results', 'Raw result codes mapped to Passed, Warning, Failed or Canceled.'],
+      ['Expandable detail', 'Click or keyboard-toggle a row to reveal a nested Test Name / Test Value / Test Information table; a single match auto-expands.'],
+      ['Local time', 'Dates shown in the device’s own time zone when the profile provides one.'],
+      ['Clear states', '"No Results" empty state, loading spinner, generic error message and field-level validation errors.'],
+      ['Localisation', 'All UI strings come from a server-provided locale map loaded at startup.']
     ],
     nfr: [
-      ['Performance budget', 'LCP < 2.5 s, INP < 200 ms, CLS < 0.1, < 250 KB gzip initial JS, lazy routes — and purge the ~137k-line generated CSS.'],
-      ['Security', 'SSO / OIDC, tokens kept out of localStorage where possible, CSP, no dangerouslySetInnerHTML, CSRF protection, RBAC enforced server-side as well.'],
-      ['Accessibility', 'WCAG 2.1 AA: keyboard navigation, modal focus management, labelled controls, 4.5:1 contrast in both themes.'],
-      ['Testability', '≥ 70% unit coverage on logic, RTL component tests, E2E for critical flows.'],
-      ['Reliability', 'Error boundary per route, retry with back-off on reads, empty / loading / error states.'],
-      ['Observability', 'Web Vitals and JS errors to the monitoring stack; structured client logging.'],
-      ['Compatibility', 'Latest two versions of Safari, Chrome, Firefox and Edge.'],
-      ['Supply chain', 'Pinned lockfile and dependency audit in CI.']
+      ['Security', 'Authentication delegated to corporate SSO; the server extracts a user context per request and re-validates all input. No search results are cached client-side.'],
+      ['Accessibility', 'Labelled results table, aria-labels on icon buttons, Enter / Space on the clear control, auto-focus on the search field, and jsx-a11y linting in CI.'],
+      ['Reliability', 'Health and data-centre status endpoints, a typed exception hierarchy, and a scheduled locale-cache refresh so a slow upstream doesn’t block start-up.'],
+      ['Observability', 'Structured request and connector logging with a transaction filter for request correlation.'],
+      ['Quality gates', '80% global coverage threshold (branches, functions, lines, statements) plus a Cypress end-to-end suite.'],
+      ['Performance', 'Lazy-loaded routes behind Suspense; searches are explicit refetches, so nothing fires while the user is typing.'],
+      ['i18n', 'Server-driven strings with about 20 locales defined (English enabled today).']
     ],
     hld: {
       diagrams: [
         {
-          title: 'Target architecture',
+          title: 'System overview',
           tiers: [
-            { n: 'Browser SPA', k: 'client', mine: true, nodes: ['App shell → router → layout', 'Feature modules', 'Auth · theme · error boundary', 'Query cache · RBAC guard', 'Typed API client'] },
-            'HTTPS · JSON (REST)',
-            { n: 'Backend API', k: 'ext', nodes: ['Admin API (separate service)', 'Identity / SSO'] },
-            'Persistence',
-            { n: 'Data', k: 'ext', nodes: ['Data stores'] }
+            { n: 'Browser SPA', k: 'client', mine: true, nodes: ['Search bar + validation', 'Results table', 'Expandable test detail', 'React Query (manual refetch)', 'Context: search · locale · auth'] },
+            'HTTPS · JSON (REST) · SSO session',
+            { n: 'Spring Boot service (reactive)', k: 'server', mine: true, nodes: ['Serves the SPA bundle', 'Search API (POST)', 'Locale API + scheduled cache', 'User-context extraction', 'Input validation · transaction filter'] },
+            'Reactive HTTP connector · service-to-service',
+            { n: 'Upstream', k: 'ext', nodes: ['Diagnostic results services', 'Corporate SSO'] }
           ]
         }
       ],
       decisions: [
-        ['Stay on CRA for now', 'Ship the foundation first; a Vite migration is a separate, planned task.'],
-        ['Server state ≠ UI state', 'A query cache for server state, React context for UI state — no Redux until a real need appears.'],
-        ['Lazy routes with RBAC meta', 'Each route declares its permission; the guard renders a 403 page before data loads.'],
-        ['Design system first', 'Design-system and utility classes before any custom CSS; no new CSS-in-JS library.']
+        ['One deployable', 'The React build is copied into the service’s static resources, so API and UI ship and roll back together.'],
+        ['Thin, reactive BFF', 'The service proxies and shapes upstream data with a non-blocking client; business rules stay upstream.'],
+        ['Explicit search, no result cache', 'Searches only run on submit and results aren’t cached, so support always sees fresh data and nothing sensitive lingers in the browser.'],
+        ['Server-driven strings', 'Copy changes and new locales ship without a UI release.']
       ]
     },
     lld: {
       modules: [
-        ['Current modules', 'Entry point (StrictMode + vitals hook), root component, source CSS, generated CSS, Tailwind config with the design-system preset, PostCSS config, one smoke test.'],
-        ['CSS pipeline', 'Config + source CSS → postcss-import → Tailwind with the preset → compiled CSS. CRA 4’s PostCSS does not run Tailwind, so the CSS is pre-compiled.'],
-        ['Target folders', 'app/ (providers, routes), components/, layouts/, features/ (auth, dashboard, users, audit, settings), lib/ (API client, RBAC, env), hooks/, types/.'],
-        ['Contracts', 'A typed <code>api&lt;T&gt;()</code> wrapper (base URL, auth header, error normalisation, 401 → re-auth); <code>can(user, action, resource)</code>; a <code>useAuth()</code> hook; paged list types.'],
-        ['Tech debt found', 'Stale CRA names and copy, a misplaced registry config, an undeclared Tailwind dependency, no CSS purge, double CSS import, committed build output, and an old toolchain (React 17, CRA 4, TS 4.3).']
+        ['App shell', 'Router with a main route and a signed-out route; lazy-loaded pages behind Suspense; a context provider for search state, locale strings and sign-out.'],
+        ['Search module', 'Controlled text field with clear button; sanitise → upper-case → length check → pattern check → classify as serial or event ID → manual React Query refetch.'],
+        ['Results module', 'Table component mapping result codes to labels; row component with expand / collapse state and a nested test table; auto-expand for a single result.'],
+        ['Formatting', 'moment-timezone helpers that honour the device time zone; result-label mapper.'],
+        ['Service layer', 'REST controllers (search, locale, health), a user-context extractor, request validation, a transaction filter, and a reactive connector to upstream services.']
       ],
       flow: {
-        title: 'Target: loading a protected list',
+        title: 'Searching for a device',
         steps: [
-          'Router resolves the route → RBAC guard checks "can read users?".',
-          'No → 403 page. Yes → the page mounts.',
-          'Page calls a query hook → typed API client → REST.',
-          'Loading → spinner; error → error state with retry.',
-          'Data → table + pagination.'
+          'User types a serial or event ID and presses Search.',
+          'Client sanitises and validates the input; invalid → inline field error.',
+          'Valid → classified as serial or event ID → POST to the search API.',
+          'Service checks the user context and input, then queries upstream diagnostic services.',
+          'Results are mapped to rows with friendly labels and local dates; none → "No Results".',
+          'User expands a row to see each test’s name, value and information.'
         ]
       }
     },
     ui: [
-      ['Component architecture', 'Feature folders; shared presentational components (button, table, modal, form field, toast); pages default-exported for lazy loading.'],
-      ['Design tokens & theming', 'Design-system preset; primary colour as an RGB-triplet CSS variable for both themes; theme switched by a data attribute.'],
-      ['State & data fetching', 'Server state in a query cache; UI state in context and hooks.'],
-      ['Routing', 'React Router with lazy routes carrying RBAC metadata; breadcrumbs from the route table.'],
-      ['Rendering strategy', 'Client-rendered SPA on a static host / CDN with an index.html fallback.'],
-      ['Accessibility & i18n', 'Accessible design-system components, managed focus in dialogs, labelled controls; strings kept out of logic so i18n can be added.'],
-      ['Performance budget', 'Core Web Vitals targets above, route-level splitting and purged CSS.'],
-      ['Error & loading states', 'Error boundary per route, skeleton / spinner states, retry, and a 403 page.']
+      ['Component architecture', 'Small, focused components: header with search, results table, result row, nested test table, empty / error / loading views, signed-out page.'],
+      ['Design tokens & theming', 'Built on the internal enterprise design-system components (button, grid, text field, icons) with Emotion for layout styling.'],
+      ['State & data fetching', 'Server state in React Query with manual refetch and caching disabled for results; UI state (search term, expanded rows) in context and local state.'],
+      ['Routing', 'React Router v5: main search route plus a dedicated signed-out route.'],
+      ['Rendering strategy', 'Client-rendered SPA served by the same Spring Boot service; desktop-first fixed-width layout for support workstations.'],
+      ['Accessibility & i18n', 'Labelled table and controls, keyboard-operable expand and clear, auto-focus on search; all strings from the server locale map.'],
+      ['Performance', 'Route-level code splitting; no requests while typing; lightweight table rendering.'],
+      ['Error & loading states', 'Spinner while searching, field-level validation errors, a generic error message, a clear "No Results" state and a signed-out page.']
     ],
     stack: {
-      frontend: ['React 17', 'TypeScript 4.3 (strict)', 'Internal design system (Tailwind 2 preset)', 'web-vitals'],
-      backend: ['Separate admin API (proposed REST contract)'],
-      build: ['Create React App 4 (Webpack 4)', 'PostCSS', 'postcss-import'],
-      testing: ['Jest', 'React Testing Library', 'jest-dom', 'user-event'],
-      cicd: ['Static build → CDN / web server (target)', 'Lockfile pin + dependency audit (target)']
+      frontend: ['React 17', 'TypeScript 4', 'React Query v3', 'React Router v5', 'Emotion', 'Internal design-system components', 'moment-timezone'],
+      backend: ['Spring Boot (reactive WebClient / Reactor)', 'Java 11', 'REST APIs', 'Scheduled locale cache'],
+      build: ['Create React App 4', 'Maven (jar with bundled SPA)', 'ESLint (airbnb, jsx-a11y, TypeScript)', 'Prettier'],
+      testing: ['Jest', 'React Testing Library', 'Cypress 8 (end-to-end)', '80% coverage threshold'],
+      cicd: ['Internal CI/CD pipeline', 'Containerised deploy (Helm / Kubernetes)', 'Health-check endpoints']
     },
     contrib: [
-      'Set up the scaffold, design-system wiring and theme tokens.',
-      'Wrote the target architecture, interface contracts and folder layout.',
-      'Triaged tech debt and proposed the upgrade path: React 18 <code>createRoot</code>, Vite, Tailwind 3+ and CSS purge / JIT.'
+      'Built the search, results and expandable test-detail UI in React and TypeScript.',
+      'Implemented input sanitising and serial-vs-event-ID detection, plus the empty, loading, error and signed-out states.',
+      'Added accessibility fixes: labelled table, keyboard-operable controls and focus handling.',
+      'Wrote unit tests to hold the 80% coverage gate and extended the Cypress end-to-end suite.'
     ]
   },
 
