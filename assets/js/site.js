@@ -38,7 +38,14 @@ const PROJECT_GALLERIES = {
       { light: 'assets/dc/dc-results.png', dark: 'assets/dc/dc-results-dark.png', cap: 'Results summary with semantic, grouped lists' }
     ]
   },
-  getsupport: { title: 'support-flow.local', items: [] },
+  getsupport: {
+    title: 'support-flow.local',
+    items: [
+      { src: 'assets/shots/getsupport/diagnostics.png', cap: 'Self Service Diagnostics: welcome and eligibility notice' },
+      { src: 'assets/shots/getsupport/diagnostics-devices.png', cap: 'Choose a device to start a diagnostics session' },
+      { src: 'assets/shots/getsupport/diagnostics--mobile.png', cap: 'Responsive diagnostics welcome on a phone-sized viewport' },
+    ],
+  },
   provisioning: {
     title: 'provisioning.local',
     items: [
@@ -50,7 +57,12 @@ const PROJECT_GALLERIES = {
       { src: 'assets/shots/provisioning/bulk-user-add.png', cap: 'Bulk user add with validation and a downloadable report' }
     ]
   },
-  webadmin: { title: 'web-admin.local', items: [] },
+  webadmin: {
+    title: 'web-admin.local',
+    items: [
+      { src: 'assets/shots/webadmin/home.png', cap: 'Current state: the React + TypeScript scaffold the console is being built on' },
+    ],
+  },
   diagflow: {
     title: 'diag-flow — nightly',
     items: [
