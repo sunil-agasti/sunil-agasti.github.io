@@ -41,9 +41,17 @@ const PROJECT_GALLERIES = {
   getsupport: {
     title: 'support-flow.local',
     items: [
-      { src: 'assets/shots/getsupport/diagnostics.png', cap: 'Self Service Diagnostics: welcome and eligibility notice' },
-      { src: 'assets/shots/getsupport/diagnostics-devices.png', cap: 'Choose a device to start a diagnostics session' },
-      { src: 'assets/shots/getsupport/diagnostics--mobile.png', cap: 'Responsive diagnostics welcome on a phone-sized viewport' },
+      { light: 'assets/shots/getsupport/diag-welcome-light.png', dark: 'assets/shots/getsupport/diag-welcome-dark.png', cap: 'Self Service Diagnostics: welcome and eligibility notice' },
+      { light: 'assets/shots/getsupport/diag-choose-device-light.png', dark: 'assets/shots/getsupport/diag-choose-device-dark.png', cap: 'Choose a device to diagnose' },
+      { light: 'assets/shots/getsupport/diag-device-filled-light.png', dark: 'assets/shots/getsupport/diag-device-filled-dark.png', cap: 'Device page: put the device in diagnostics mode, enter the serial, start a session' },
+      { light: 'assets/shots/getsupport/diag-device-invalid-light.png', dark: 'assets/shots/getsupport/diag-device-invalid-dark.png', cap: 'Inline validation for an invalid or ineligible serial number' },
+      { light: 'assets/shots/getsupport/diag-session-waiting-light.png', dark: 'assets/shots/getsupport/diag-session-waiting-dark.png', cap: 'Session started: waiting for the customer to accept terms on the device' },
+      { light: 'assets/shots/getsupport/diag-suites-light.png', dark: 'assets/shots/getsupport/diag-suites-dark.png', cap: 'Choose a diagnostic suite, with suggested use and time estimates' },
+      { light: 'assets/shots/getsupport/diag-running-light.png', dark: 'assets/shots/getsupport/diag-running-dark.png', cap: 'Suite running, with live progress mirrored from the device' },
+      { light: 'assets/shots/getsupport/diag-prompt-light.png', dark: 'assets/shots/getsupport/diag-prompt-dark.png', cap: 'Interactive step: the suite asks the customer to act on the device' },
+      { light: 'assets/shots/getsupport/diag-results-issues-light.png', dark: 'assets/shots/getsupport/diag-results-issues-dark.png', cap: 'Results: issues found, grouped by component with expandable details' },
+      { light: 'assets/shots/getsupport/diag-results-passed-light.png', dark: 'assets/shots/getsupport/diag-results-passed-dark.png', cap: 'Results: all components passed' },
+      { src: 'assets/shots/getsupport/diag-results-passed-mobile-light.png', cap: 'Responsive results on a phone-sized viewport' },
     ],
   },
   provisioning: {
